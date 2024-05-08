@@ -1,5 +1,6 @@
-%%=================================%%
-%%=====解析法重建平行束投影========%%
+%%===实验2：平行束投影数据的仿真===%%
+%%====解析法重建平行束投影=========%%
+%%======main Function======%%
 clc;
 clear all;
 close all;
@@ -12,7 +13,7 @@ I = phantom(N);
 % 设定探测器通道个数
 N_d = 2 * ceil(norm(size(I)-floor((size(I)-1)/2)-1))+3;
 % 产生投影数据
-P = medfuncParallelBeamForwardProjection(theta, N, N_d);
+P = Exp2_medfuncParallelBeamForwardProjection(theta, N, N_d);
 P_radon = radon(I, theta);
 
 %%=====仿真结果显示=====%%

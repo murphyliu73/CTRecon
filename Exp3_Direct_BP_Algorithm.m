@@ -1,0 +1,28 @@
+%%====实验3：直接反投影算法重建实验====%%
+%%===========main Function=============%%
+clc;
+clear all;
+close all;
+
+%%======投影参数设置=======%%
+N = 256;            % 重建图像大小，探测器通道个数也设置为N
+I = phantom(N);     % 生成Shepp-Logan头部模型
+delta = pi / 180;   % 角度增量
+theta = 0:1:179;    % 投影角度
+theta_num = length(theta);
+
+%%=====产生投影数据=======%%
+P = radon(I, theta);                % radon 变换
+[mm, nn] = size(P);                 % 计算投影矩阵的行列长度
+e = floor((mm - N - 1)/2 + 1) + 1;    % 投影数据的默认投影中心为floor((size(I)+1)/2)
+P = P(e:N+e-1,:);                   % 截取中心N点数据-
+P1 = reshape(P, N, theta_num);
+
+%%=====反投影重建=========%%
+rec = Exp3_medfuncBackprojection(theta_num, N, P1, delta);
+
+%%=====投影结果显示=========%%
+figure;     % 显示原始图像
+imshow(I, []), title("原始图像");
+figure;     % 显示重建后图像
+imshow(rec, []), title("直接反投影重建图像");
